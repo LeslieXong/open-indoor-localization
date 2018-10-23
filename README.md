@@ -1,6 +1,6 @@
 # open-indoor-localization
 And simple indoor localization app and script for new beginner to start.
-![ScreenShop](https://github.com/LeslieXong/open-indoor-localization/tree/master/pictures/screenshot.jpg)
+![ScreenShop](https://github.com/LeslieXong/open-indoor-localization/blob/master/pictures/screeshot.jpg?raw=true)
 
 ## Features:
 * Collecting WiFi and iBeacon data at the same time.
