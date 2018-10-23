@@ -13,7 +13,8 @@ And simple indoor localization app and script for new beginner to start.
    1. Android grant location/storage permission for scan beacon and wifi.
    2. Open WiFi and Bluetooth function on device.
 *. Prepare a map: This app take a image as a floor map, user should input the real width and height(in meters) for conduct coordinate conversion.
-   ![Data format](https://github.com/LeslieXong/open-indoor-localization/pictures/data format.png)
+*. After collecting data, extract the train and test data to computer and use the PyLocalizer for knn localization.
+![Data format](https://github.com/LeslieXong/open-indoor-localization/pictures/data format.png)
 
 ## Display:
 ![ScreenShop](https://github.com/LeslieXong/open-indoor-localization/pictures/screenshot.jpg)
