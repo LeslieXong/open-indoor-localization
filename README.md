@@ -1,5 +1,6 @@
 # open-indoor-localization
 And simple indoor localization app and script for new beginner to start.
+![ScreenShop](https://github.com/LeslieXong/open-indoor-localization/tree/master/pictures/screenshot.jpg)
 
 ## Features:
 * Collecting WiFi and iBeacon data at the same time.
@@ -16,7 +17,8 @@ And simple indoor localization app and script for new beginner to start.
 * After collecting data, extract the train and test data to computer and use the PyLocalizer for knn localization.
 ![Data format](https://github.com/LeslieXong/open-indoor-localization/tree/master/pictures/data_format.png)
 
-## Display:
-![ScreenShop](https://github.com/LeslieXong/open-indoor-localization/tree/master/pictures/screenshot.jpg)
+## Dependencies:
+https://github.com/davemorrissey/subsampling-scale-image-view
+
 
 
