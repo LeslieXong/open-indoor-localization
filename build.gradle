@@ -1,0 +1,35 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
+buildscript {  //The "buildscript" configuration section is for gradle itself
+    repositories {
+        jcenter()
+        google()
+    }
+    dependencies {
+        classpath 'com.android.tools.build:gradle:3.1.2'
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
+    }
+}
+
+allprojects {
+    repositories {
+        maven { url 'https://maven.google.com' } // solve: Could not find runtime.jar (android.arch.lifecycle:runtime:1.0.0)
+        jcenter()
+    }
+}
+
+task clean(type: Delete) {
+    delete rootProject.buildDir
+}
+
+/*
+The "buildscript" configuration section is for gradle itself (i.e. changes to how gradle is able to perform the build).
+So this section will usually include the Android Gradle plugin.
+The "allprojects" section is for the modules being built by Gradle.
+Oftentimes the repository section is the same for both, since both will get their dependencies from jcenter usually (or maybe maven central).
+But the "dependencies" section will be different.
+Usually the "dependencies" section for "allprojects" is empty since the dependencies for each module are unique and will be
+in the "build.gradle" file within each of the modules. However,
+if all of the modules shared the same dependencies then they could be listed here.
+*/
