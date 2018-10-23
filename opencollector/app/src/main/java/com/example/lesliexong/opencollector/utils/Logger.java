@@ -2,7 +2,6 @@ package com.example.lesliexong.opencollector.utils;
 
 import android.graphics.PointF;
 import android.os.Environment;
-import android.util.Log;
 
 import com.example.lesliexong.opencollector.collectorservice.Fingerprint;
 import com.example.lesliexong.opencollector.collectorservice.XBeacon;
@@ -33,16 +32,20 @@ public class Logger {
 
         for (XBeacon beacon : fingerprint.beaconData) {
             StringBuilder rssiList = new StringBuilder();
-            for (Integer rssi : beacon.rssiList)
+            for (Integer rssi : beacon.rssiList) {
+                rssiList.append(" ");
                 rssiList.append(rssi);
-            data.add(String.format(Locale.ENGLISH, "%s %d b | %s", beacon.mac, beacon.rssi, rssiList.toString()));
+            }
+            data.add(String.format(Locale.ENGLISH, "%s %d b |%s", beacon.mac, beacon.rssi, rssiList.toString()));
         }
 
         for (XWiFi wifi : fingerprint.wifiData) {
             StringBuilder rssiList = new StringBuilder();
-            for (Integer rssi : wifi.rssiList)
+            for (Integer rssi : wifi.rssiList) {
+                rssiList.append(" ");
                 rssiList.append(rssi);
-            data.add(String.format(Locale.ENGLISH, "%s %d w | %s", wifi.mac, wifi.rssi, rssiList.toString()));
+            }
+            data.add(String.format(Locale.ENGLISH, "%s %d w |%s", wifi.mac, wifi.rssi, rssiList.toString()));
         }
 
         String firstLine = String.format(Locale.ENGLISH, "%.2f %.2f %d %s", fingerprint.x, fingerprint.y, data.size()
