@@ -42,7 +42,6 @@ public class PinView extends SubsamplingScaleImageView {
     }
 
     private void initialise() {
-        //todo adaptive size of the icon of position
         float density = getResources().getDisplayMetrics().densityDpi;
         setMaximumDpi((int) density);
 

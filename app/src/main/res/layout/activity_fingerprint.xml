@@ -38,12 +38,13 @@
         </RadioGroup>
 
         <Button
-            android:id="@+id/check_done"
+            android:id="@+id/help_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="2"
+            android:background="@android:color/transparent"
             android:onClick="onClick"
-            android:text="@string/check" />
+            android:text="@string/collect_help"  />
     </LinearLayout>
 
     <LinearLayout
@@ -64,12 +65,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:gravity="center"
             android:inputType="numberDecimal"
             android:text="@string/default_stride" />
 
         <Button
-            android:id="@+id/help"
+            android:id="@+id/help_stride"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"

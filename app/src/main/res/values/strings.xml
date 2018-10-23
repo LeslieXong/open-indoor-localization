@@ -2,7 +2,8 @@
     <string name="app_name">OpenCollector</string>
     <string name="action_settings">Settings</string>
 
-    <string name="help">1.You can input x/y to change your current location)\n2.Single tap on the different direction of current position will move a stride length</string>
+    <string name="help_data">1.Data auto saved under folder OpenCollector 2.Train means fingerprint data,Test means points which will be localized\n3.Export your data first before you starting another round. </string>
+    <string name="help_stride">1.You can input x/y to change your current location)\n2.Single tap on the different direction of current position will move a stride length</string>
     <string name="train">Train</string>
     <string name="test">Test</string>
     <string name="stride_length">Stride Length</string>

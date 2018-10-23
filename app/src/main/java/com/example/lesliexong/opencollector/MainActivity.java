@@ -23,6 +23,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -84,6 +85,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         xTextView = findViewById(R.id.x_label);
         yTextView = findViewById(R.id.y_label);
 
+        typeRadioButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                checkFinishedPoints();
+            }
+        });
+
         requestPermissionBeforeStart();
     }
 
@@ -125,9 +133,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     if (!tryLoadOldMap())
                         selectMapFromPhone();
                 } else {
+                    // permission denied could not use this app
                     showToast("This app could not work without permission");
                     MainActivity.this.finish();
-                    // permission denied could not use this app
                 }
             }
         }
@@ -199,11 +207,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.pick_map_button:
                 selectMapFromPhone();
                 break;
-            case R.id.help:
-                showToast(getResources().getString(R.string.help));
+            case R.id.help_stride:
+                showToast(getResources().getString(R.string.help_stride));
                 break;
-            case R.id.check_done:
-                checkFinishedPoints();
+            case R.id.help_data:
+                showToast(getResources().getString(R.string.help_data));
                 break;
         }
     }
@@ -292,20 +300,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onCollectFinished(final ArrayList<XBeacon> beaconData, final ArrayList<XWiFi> wifiData) {
                 indoorCollectManager.unregisterCollectorListener();
                 indoorCollectManager.stopScan();
-                String type = typeRadioButton.isChecked() ? "train" : "test";
-                saveFingerprintData(type, beaconData, wifiData);
+                setGestureDetectorListener(true);
+                saveFingerprintData( beaconData, wifiData);
             }
         });
 
         indoorCollectManager.startScan(true, true);
     }
 
-    private void saveFingerprintData(String type, final ArrayList<XBeacon> beaconData, final ArrayList<XWiFi> wifiData) {
+    private void saveFingerprintData( final ArrayList<XBeacon> beaconData, final ArrayList<XWiFi> wifiData) {
         PointF pos = mapView.getCurrentTCoord();
         Fingerprint fingerprint = new Fingerprint(pos.x, pos.y);
         fingerprint.beaconData = beaconData;
         fingerprint.wifiData = wifiData;
 
+        String type = typeRadioButton.isChecked() ? "train" : "test";
         updateCollectStatus(fingerprint);
         Logger.saveFingerprintData(type, fingerprint);
     }
@@ -329,7 +338,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private String getRealPathFromURI(Uri contentURI) {
         String result;
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) {     // Source is Dropbox or other similar local file path
+        if (cursor == null) {
             result = contentURI.getPath();
         } else {
             cursor.moveToFirst();
@@ -340,7 +349,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         return result;
     }
-
 
     private void loadMapImage(final Uri selectedImage, float width, float height) {
         Bitmap bitmap = null;
@@ -356,6 +364,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mapView.setCurrentTPosition(new PointF(1.0f, 1.0f)); //initial current position
             xTextView.setText(String.format(Locale.ENGLISH, "X(max:%.1f)", width));
             yTextView.setText(String.format(Locale.ENGLISH, "Y(max:%.1f)", height));
+            checkFinishedPoints();
             setGestureDetectorListener(true);
         }
     }
@@ -366,27 +375,29 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void setGestureDetectorListener(boolean enable) {
         if (!enable)
             mapView.setOnTouchListener(null);
-
-        if (gestureDetector == null) {
-            gestureDetector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
-                @Override
-                public boolean onSingleTapConfirmed(MotionEvent e) {
-                    if (mapView.isReady()) {
-                        mapView.moveBySingleTap(e);
-                        setTextWithoutTriggerListener();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
+        else {
+            if (gestureDetector == null) {
+                gestureDetector = new GestureDetector(MainActivity.this, new GestureDetector.SimpleOnGestureListener() {
+                    @Override
+                    public boolean onSingleTapConfirmed(MotionEvent e) {
+                        if (mapView.isReady()) {
+                            mapView.moveBySingleTap(e);
+                            setTextWithoutTriggerListener();
+                        } else {
+                            Toast.makeText(getApplicationContext(), "Single tap: Image not ready", Toast.LENGTH_SHORT).show();
+                        }
+                        return true;
                     }
-                    return true;
+                });
+            }
+
+            mapView.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return gestureDetector.onTouchEvent(motionEvent);
                 }
             });
         }
-        mapView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                return gestureDetector.onTouchEvent(motionEvent);
-            }
-        });
     }
 
     private boolean ifUserInput = true;
