@@ -70,7 +70,7 @@ public class XWiFiScanner extends Thread {
             timer.cancel();
             timer.purge();
             timer = null;
-//          mContext.unregisterReceiver(wifiReceiver);
+            mContext.unregisterReceiver(wifiReceiver);
         }
     }
 
@@ -79,7 +79,7 @@ public class XWiFiScanner extends Thread {
     }
 
     void registerScanListener(WiFiScanListener listener) {
-        this.wiFiScanListener = listener;
+        wiFiScanListener = listener;
     }
 
     private BroadcastReceiver wifiReceiver = new BroadcastReceiver() {

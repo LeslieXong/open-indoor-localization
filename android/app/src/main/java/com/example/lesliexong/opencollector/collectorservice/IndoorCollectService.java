@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.net.wifi.ScanResult;
 import android.os.IBinder;
 import android.util.Log;
-
 import java.util.ArrayList;
 
 /**
@@ -119,6 +118,7 @@ public class IndoorCollectService extends Service {
 
     @Override
     public void onDestroy() {
+        this.unregisterReceiver(cmdReceiver);
         super.onDestroy();
         Log.d(TAG, "Service onDestroy() executed");
     }
